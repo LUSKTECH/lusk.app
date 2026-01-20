@@ -54,3 +54,6 @@ next-env.d.ts
 .kiro/
 .tabnine/
 .sourcegraph/
+
+# Sentry Config File
+.env.sentry-build-plugin
