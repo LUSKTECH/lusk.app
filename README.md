@@ -72,6 +72,7 @@ This project includes several automated workflows:
 | **Deploy Preview** | PR to main | Deploys preview to Vercel with PR comment |
 | **Deploy Production** | Push to main | Deploys to production with Sentry release |
 | **Dependency Updates** | Weekly | Automated dependency update PRs |
+| **SonarQube** | Push/PR to main | Code quality and security analysis |
 
 ## 🔐 Required Secrets
 
@@ -96,6 +97,10 @@ npx vercel link
 ### Code Coverage
 
 - `CODECOV_TOKEN` - Codecov upload token ([Sign up free](https://codecov.io/))
+
+### Code Quality
+
+- `SONAR_TOKEN` - SonarQube/SonarCloud token ([Sign up free](https://sonarcloud.io/))
 
 ### Error Tracking (Optional)
 
