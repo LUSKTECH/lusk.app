@@ -61,10 +61,10 @@ export function Hero() {
           className="flex flex-col items-center text-center"
         >
           {/* Badge */}
-          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-10">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-10" role="status">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true" />
             <span className="text-base text-zinc-300">Open Source Projects</span>
-            <ChevronRight className="w-5 h-5 text-zinc-400" />
+            <ChevronRight className="w-5 h-5 text-zinc-400" aria-hidden="true" />
           </div>
 
           {/* Main heading */}
@@ -89,12 +89,12 @@ export function Hero() {
             <Button size="lg" className="group text-lg px-8 py-6 h-auto" asChild>
               <a href="#projects">
                 Explore Projects
-                <ExternalLink className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-0.5" />
+                <ExternalLink className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
               </a>
             </Button>
             <Button size="lg" variant="outline" className="group text-lg px-8 py-6 h-auto" asChild>
               <a href="https://github.com/lusky3" target="_blank" rel="noopener noreferrer">
-                <Github className="mr-2 w-6 h-6" />
+                <Github className="mr-2 w-6 h-6" aria-hidden="true" />
                 View GitHub
               </a>
             </Button>
@@ -130,6 +130,8 @@ export function Hero() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        role="presentation"
+        aria-hidden="true"
       >
         <motion.div
           animate={{ y: [0, 8, 0] }}

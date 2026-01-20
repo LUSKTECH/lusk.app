@@ -62,8 +62,8 @@ export function Navbar() {
             {/* CTA */}
             <div className="hidden md:flex items-center gap-6">
               <Button variant="ghost" size="lg" asChild>
-                <a href="https://github.com/lusky3" target="_blank" rel="noopener noreferrer">
-                  <Github className="w-6 h-6" />
+                <a href="https://github.com/lusky3" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                  <Github className="w-6 h-6" aria-hidden="true" />
                 </a>
               </Button>
               <Button 

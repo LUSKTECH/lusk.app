@@ -11,7 +11,6 @@ on:
 
 permissions:
   contents: read
-  security-events: write
 
 jobs:
   dependency-audit:
@@ -42,6 +41,7 @@ jobs:
     permissions:
       contents: read
       security-events: write
+      actions: read
     steps:
       - name: Check for Snyk token
         id: check-snyk
@@ -68,14 +68,29 @@ jobs:
         if: steps.check-snyk.outputs.skip != 'true'
         run: npm ci
 
-      - name: Run Snyk to check for vulnerabilities
+      - name: Set up Snyk CLI
         if: steps.check-snyk.outputs.skip != 'true'
-        uses: snyk/actions/node@master
-        continue-on-error: true
+        uses: snyk/actions/setup@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Snyk Code test
+        if: steps.check-snyk.outputs.skip != 'true'
+        run: snyk code test --sarif > snyk-code.sarif || true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Snyk Open Source test
+        if: steps.check-snyk.outputs.skip != 'true'
+        run: snyk test --severity-threshold=high || true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Upload Snyk results to GitHub Code Scanning
+        if: steps.check-snyk.outputs.skip != 'true'
+        uses: github/codeql-action/upload-sarif@v3
         with:
-          args: --severity-threshold=high
+          sarif_file: snyk-code.sarif
 
   codeql:
     name: CodeQL Analysis

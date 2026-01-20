@@ -24,13 +24,13 @@ describe('Footer', () => {
   it('renders social links', () => {
     render(<Footer />)
     const links = screen.getAllByRole('link')
-    const githubLink = links.find(link => link.getAttribute('href')?.includes('github.com'))
-    const linkedinLink = links.find(link => link.getAttribute('href')?.includes('linkedin.com'))
-    const emailLink = links.find(link => link.getAttribute('href')?.includes('mailto:'))
+    const githubLink = links.find(link => link.getAttribute('href') === 'https://github.com/lusky3')
+    const linkedinLink = links.find(link => link.getAttribute('href') === 'https://www.linkedin.com/company/lusktechnologies/')
+    const emailLink = links.find(link => link.getAttribute('href') === 'mailto:hello@lusk.app')
     
     expect(githubLink).toBeInTheDocument()
-    expect(linkedinLink).toHaveAttribute('href', 'https://www.linkedin.com/company/lusktechnologies/')
-    expect(emailLink).toHaveAttribute('href', 'mailto:hello@lusk.app')
+    expect(linkedinLink).toBeInTheDocument()
+    expect(emailLink).toBeInTheDocument()
   })
 
   it('renders Made with love in Toronto', () => {

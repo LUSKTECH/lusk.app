@@ -23,8 +23,7 @@ describe('Navbar', () => {
 
   it('renders GitHub link', () => {
     render(<Navbar />)
-    const githubLinks = screen.getAllByRole('link', { name: '' })
-    const githubLink = githubLinks.find(link => link.getAttribute('href')?.includes('github.com'))
+    const githubLink = screen.getByRole('link', { name: 'GitHub' })
     expect(githubLink).toHaveAttribute('href', 'https://github.com/lusky3')
   })
 
