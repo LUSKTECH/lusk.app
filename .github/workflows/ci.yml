@@ -87,7 +87,7 @@ jobs:
         run: npm ci
 
       - name: Run tests with coverage
-        run: npm run test:coverage
+        run: npm run test:coverage -- --reporter=junit --outputFile=test-results.xml
 
       - name: Upload coverage reports
         uses: actions/upload-artifact@v6
@@ -95,6 +95,22 @@ jobs:
           name: coverage-report
           path: coverage
           retention-days: 7
+
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: test-results.xml
+
+      - name: Upload coverage reports to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./coverage
+          flags: unittests
+          fail_ci_if_error: false
 
   lighthouse:
     name: Lighthouse Audit

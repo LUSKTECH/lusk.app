@@ -32,6 +32,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# IDE
+.vscode/
 
 # vercel
 .vercel
@@ -39,3 +43,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI/LLM tools
+.cursor/
+.aider*
+.claude/
+.copilot/
+.codeium/
+.continue/
+.kiro/
+.tabnine/
+.sourcegraph/

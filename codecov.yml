@@ -1,0 +1,20 @@
+coverage:
+  status:
+    project:
+      default:
+        target: 70%
+        threshold: 5%
+    patch:
+      default:
+        target: 70%
+
+comment:
+  layout: "reach,diff,flags,files"
+  behavior: default
+  require_changes: true
+
+flags:
+  unittests:
+    paths:
+      - src/
+    carryforward: true

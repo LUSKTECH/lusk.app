@@ -1,8 +1,9 @@
 # lusk.app
 
-[![CI](https://github.com/lusky3/lusk.app/actions/workflows/ci.yml/badge.svg)](https://github.com/lusky3/lusk.app/actions/workflows/ci.yml)
-[![Security](https://github.com/lusky3/lusk.app/actions/workflows/security.yml/badge.svg)](https://github.com/lusky3/lusk.app/actions/workflows/security.yml)
-[![Deploy](https://github.com/lusky3/lusk.app/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/lusky3/lusk.app/actions/workflows/deploy-production.yml)
+[![CI](https://github.com/LUSKTECH/lusk.app/actions/workflows/ci.yml/badge.svg)](https://github.com/LUSKTECH/lusk.app/actions/workflows/ci.yml)
+[![Security](https://github.com/LUSKTECH/lusk.app/actions/workflows/security.yml/badge.svg)](https://github.com/LUSKTECH/lusk.app/actions/workflows/security.yml)
+[![Deploy](https://github.com/LUSKTECH/lusk.app/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/LUSKTECH/lusk.app/actions/workflows/deploy-production.yml)
+[![codecov](https://codecov.io/gh/LUSKTECH/lusk.app/graph/badge.svg)](https://codecov.io/gh/LUSKTECH/lusk.app)
 
 A modern landing page showcasing open source projects by [Lusk Technologies, Inc](https://lusk.tech).
 
@@ -91,6 +92,10 @@ npx vercel link
 ### Security Scanning
 
 - `SNYK_TOKEN` - Snyk API token ([Sign up free](https://snyk.io/))
+
+### Code Coverage
+
+- `CODECOV_TOKEN` - Codecov upload token ([Sign up free](https://codecov.io/))
 
 ### Error Tracking (Optional)
 
