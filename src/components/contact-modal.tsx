@@ -6,11 +6,16 @@ import { X, Send, Loader2, CheckCircle, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 interface ContactModalProps {
-  isOpen: boolean
-  onClose: () => void
+  readonly isOpen: boolean
+  readonly onClose: () => void
 }
 
-function ContactForm({ onSuccess, onError }: { onSuccess: () => void; onError: () => void }) {
+interface ContactFormProps {
+  readonly onSuccess: () => void
+  readonly onError: () => void
+}
+
+function ContactForm({ onSuccess, onError }: ContactFormProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',

@@ -37,8 +37,8 @@ export function Analytics() {
 
 // Helper to update consent (called from cookie-consent component)
 export function updateAnalyticsConsent(granted: boolean) {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('consent', 'update', {
+  if (typeof globalThis.window !== 'undefined' && globalThis.window.gtag) {
+    globalThis.window.gtag('consent', 'update', {
       'analytics_storage': granted ? 'granted' : 'denied',
     })
   }

@@ -3,6 +3,13 @@
 import { motion } from 'framer-motion'
 import { MapPin, Calendar, Code2, Server } from 'lucide-react'
 
+const aboutItems = [
+  { id: 'location', icon: MapPin, label: 'Toronto, Ontario' },
+  { id: 'since', icon: Calendar, label: 'Since 2016' },
+  { id: 'opensource', icon: Code2, label: 'Open Source First' },
+  { id: 'infra', icon: Server, label: 'Infrastructure Focus' },
+]
+
 export function About() {
   return (
     <section id="about" className="py-32 px-6">
@@ -31,13 +38,8 @@ export function About() {
             </p>
 
             <div className="grid grid-cols-2 gap-6">
-              {[
-                { icon: MapPin, label: 'Toronto, Ontario' },
-                { icon: Calendar, label: 'Since 2016' },
-                { icon: Code2, label: 'Open Source First' },
-                { icon: Server, label: 'Infrastructure Focus' },
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-4 text-lg text-zinc-400">
+              {aboutItems.map((item) => (
+                <div key={item.id} className="flex items-center gap-4 text-lg text-zinc-400">
                   <item.icon className="w-6 h-6 text-violet-400" />
                   <span>{item.label}</span>
                 </div>

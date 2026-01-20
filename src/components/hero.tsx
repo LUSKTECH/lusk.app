@@ -25,6 +25,13 @@ const transitionVariants = {
   },
 }
 
+const stats = [
+  { id: 'repos', value: '50+', label: 'Repositories' },
+  { id: 'years', value: '7+', label: 'Years Active' },
+  { id: 'stars', value: '10+', label: 'Stars' },
+  { id: 'passion', value: '∞', label: 'Passion' },
+]
+
 export function Hero() {
   return (
     <section className="relative min-h-screen overflow-hidden">
@@ -61,11 +68,11 @@ export function Hero() {
           className="flex flex-col items-center text-center"
         >
           {/* Badge */}
-          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-10" role="status">
+          <output className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-10">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true" />
             <span className="text-base text-zinc-300">Open Source Projects</span>
             <ChevronRight className="w-5 h-5 text-zinc-400" aria-hidden="true" />
-          </div>
+          </output>
 
           {/* Main heading */}
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight mb-8">
@@ -108,13 +115,8 @@ export function Hero() {
           transition={{ delay: 1, duration: 0.8 }}
           className="mt-28 grid grid-cols-2 md:grid-cols-4 gap-12"
         >
-          {[
-            { value: '50+', label: 'Repositories' },
-            { value: '7+', label: 'Years Active' },
-            { value: '10+', label: 'Stars' },
-            { value: '∞', label: 'Passion' },
-          ].map((stat, i) => (
-            <div key={i} className="text-center">
+          {stats.map((stat) => (
+            <div key={stat.id} className="text-center">
               <div className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
                 {stat.value}
               </div>

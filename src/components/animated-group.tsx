@@ -1,19 +1,19 @@
 'use client'
-import { ReactNode } from 'react'
-import { motion, Variants } from 'framer-motion'
+import { type ReactNode } from 'react'
+import { motion, type Variants } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import React from 'react'
 
 type PresetType = 'fade' | 'slide' | 'scale' | 'blur' | 'blur-slide'
 
-type AnimatedGroupProps = {
-  children: ReactNode
-  className?: string
-  variants?: {
+interface AnimatedGroupProps {
+  readonly children: ReactNode
+  readonly className?: string
+  readonly variants?: {
     container?: Variants
     item?: Variants
   }
-  preset?: PresetType
+  readonly preset?: PresetType
 }
 
 const defaultContainerVariants: Variants = {
@@ -76,6 +76,8 @@ export function AnimatedGroup({ children, className, variants, preset }: Animate
   const containerVariants = variants?.container || selectedVariants.container
   const itemVariants = variants?.item || selectedVariants.item
 
+  const childArray = React.Children.toArray(children)
+
   return (
     <motion.div
       initial="hidden"
@@ -83,8 +85,8 @@ export function AnimatedGroup({ children, className, variants, preset }: Animate
       variants={containerVariants}
       className={cn(className)}
     >
-      {React.Children.map(children, (child, index) => (
-        <motion.div key={index} variants={itemVariants}>
+      {childArray.map((child, index) => (
+        <motion.div key={`animated-item-${index}`} variants={itemVariants}>
           {child}
         </motion.div>
       ))}

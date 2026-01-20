@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
           <p><strong>Name:</strong> ${sanitizedName}</p>
           <p><strong>Email:</strong> ${sanitizedEmail}</p>
           <p><strong>Message:</strong></p>
-          <p>${sanitizedMessage.replaceAll(/\n/g, '<br>')}</p>
+          <p>${sanitizedMessage.replaceAll('\n', '<br>')}</p>
           <hr>
           <p style="color: #666; font-size: 12px;">
             Sent from lusk.app contact form at ${new Date().toISOString()}
