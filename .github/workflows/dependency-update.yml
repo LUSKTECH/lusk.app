@@ -1,0 +1,68 @@
+name: Dependency Updates
+
+on:
+  schedule:
+    # Run weekly on Sundays at 00:00 UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-dependencies:
+    name: Update Dependencies
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Update dependencies
+        run: |
+          npm update
+          npm audit fix || true
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet package-lock.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request
+        if: steps.changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore(deps): update dependencies'
+          title: '⬆️ Update Dependencies'
+          body: |
+            ## Automated Dependency Update
+
+            This PR updates npm dependencies to their latest compatible versions.
+
+            ### Changes
+            - Updated `package-lock.json` with latest compatible versions
+            - Applied security fixes where available
+
+            ### Checklist
+            - [ ] Review the changes
+            - [ ] Ensure CI passes
+            - [ ] Test locally if needed
+          branch: deps/update-dependencies
+          delete-branch: true
+          labels: |
+            dependencies
+            automated
