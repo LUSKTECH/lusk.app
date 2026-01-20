@@ -15,6 +15,8 @@ describe('Contact API Route', () => {
     vi.clearAllMocks()
     // Clear environment
     delete process.env.RESEND_API_KEY
+    delete process.env.RESEND_FROM_EMAIL
+    delete process.env.RESEND_TO_EMAIL
   })
 
   it('returns 400 for missing required fields', async () => {
@@ -130,6 +132,8 @@ describe('Contact API Route', () => {
 
   it('sends email when RESEND_API_KEY is set', async () => {
     process.env.RESEND_API_KEY = 'test-api-key'
+    process.env.RESEND_FROM_EMAIL = 'noreply@test.com'
+    process.env.RESEND_TO_EMAIL = 'hello@test.com'
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ id: 'email-id' }),
@@ -167,6 +171,8 @@ describe('Contact API Route', () => {
 
   it('returns 500 when Resend API fails', async () => {
     process.env.RESEND_API_KEY = 'test-api-key'
+    process.env.RESEND_FROM_EMAIL = 'noreply@test.com'
+    process.env.RESEND_TO_EMAIL = 'hello@test.com'
     mockFetch.mockResolvedValueOnce({
       ok: false,
       json: async () => ({ error: 'API Error' }),

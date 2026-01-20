@@ -81,8 +81,10 @@ export async function POST(request: NextRequest) {
 
     // Check if Resend API key is configured
     const resendApiKey = process.env.RESEND_API_KEY
+    const fromEmail = process.env.RESEND_FROM_EMAIL
+    const toEmail = process.env.RESEND_TO_EMAIL
     
-    if (!resendApiKey) {
+    if (!resendApiKey || !fromEmail || !toEmail) {
       // Log the contact submission if email not configured
       console.log('Contact form submission (email not configured):', {
         name: sanitizedName,
@@ -103,8 +105,8 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'Lusk.app Contact <noreply@lusk.app>',
-        to: ['hello@lusk.app'],
+        from: `Lusk.app Contact <${fromEmail}>`,
+        to: [toEmail],
         reply_to: sanitizedEmail,
         subject: `Contact Form: ${sanitizedName}`,
         html: `
