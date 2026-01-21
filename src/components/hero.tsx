@@ -1,7 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Github, ExternalLink, ChevronRight } from 'lucide-react'
+import { ExternalLink, ChevronRight } from 'lucide-react'
+import { SiGithub } from '@icons-pack/react-simple-icons'
 import { Button } from '@/components/ui/button'
 import { AnimatedGroup } from '@/components/animated-group'
 
@@ -37,7 +38,7 @@ export function Hero() {
     <section className="relative min-h-screen overflow-hidden">
       {/* Animated gradient background */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-transparent to-cyan-500/10" />
+        <div className="absolute inset-0 bg-linear-to-br from-violet-500/10 via-transparent to-cyan-500/10" />
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-violet-500/20 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-violet-500/5 to-transparent rounded-full" />
@@ -76,11 +77,11 @@ export function Hero() {
 
           {/* Main heading */}
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight mb-8">
-            <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
               Building the
             </span>
             <br />
-            <span className="bg-gradient-to-r from-violet-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-violet-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">
               Future of Tech
             </span>
           </h1>
@@ -101,7 +102,7 @@ export function Hero() {
             </Button>
             <Button size="lg" variant="outline" className="group text-lg px-8 py-6 h-auto" asChild>
               <a href="https://github.com/lusky3" target="_blank" rel="noopener noreferrer">
-                <Github className="mr-2 w-6 h-6" aria-hidden="true" />
+                <SiGithub className="mr-2 w-6 h-6" aria-hidden="true" />
                 View GitHub
               </a>
             </Button>
@@ -117,7 +118,7 @@ export function Hero() {
         >
           {stats.map((stat) => (
             <div key={stat.id} className="text-center">
-              <div className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
+              <div className="text-4xl md:text-5xl lg:text-6xl font-bold bg-linear-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
                 {stat.value}
               </div>
               <div className="text-base md:text-lg text-zinc-500 mt-2">{stat.label}</div>

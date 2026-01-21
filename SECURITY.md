@@ -7,11 +7,12 @@ At Lusk Technologies, Inc., we take security seriously. We appreciate your effor
 ### How to Report
 
 **Preferred Method:** Use GitHub's private vulnerability reporting feature:
+
 1. Go to the [Security tab](../../security) of this repository
 2. Click "Report a vulnerability"
 3. Fill out the form with details about the vulnerability
 
-**Alternative:** Email us directly at **security@lusk.app**
+**Alternative:** Email us directly at **<security@lusk.app>**
 
 ### What to Include
 
@@ -32,6 +33,7 @@ When reporting a vulnerability, please include:
 ### Scope
 
 This security policy applies to:
+
 - The lusk.app website and its source code
 - Any APIs or services operated by Lusk Technologies, Inc.
 
@@ -51,6 +53,7 @@ This security policy applies to:
 ## Security Best Practices
 
 We follow industry-standard security practices including:
+
 - Regular dependency updates and security audits
 - Code review for all changes
 - Automated security scanning in CI/CD

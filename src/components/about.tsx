@@ -22,7 +22,7 @@ export function About() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-8">
-              <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
                 About Lusk Technologies
               </span>
             </h2>
@@ -54,7 +54,7 @@ export function About() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative"
           >
-            <div className="aspect-square rounded-3xl bg-gradient-to-br from-violet-500/20 via-cyan-500/20 to-emerald-500/20 p-1">
+            <div className="aspect-square rounded-3xl bg-linear-to-br from-violet-500/20 via-cyan-500/20 to-emerald-500/20 p-1">
               <div className="w-full h-full rounded-3xl bg-zinc-900 flex items-center justify-center overflow-hidden">
                 <div className="text-center p-12">
                   <div className="text-9xl mb-6">🚀</div>

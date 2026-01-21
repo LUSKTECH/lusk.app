@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Github, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
+import { SiGithub } from '@icons-pack/react-simple-icons'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ContactModal } from '@/components/contact-modal'
@@ -40,7 +41,7 @@ export function Navbar() {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center transition-transform group-hover:scale-105">
+              <div className="w-14 h-14 rounded-xl bg-linear-to-br from-violet-500 to-cyan-500 flex items-center justify-center transition-transform group-hover:scale-105">
                 <span className="text-white font-bold text-2xl">L</span>
               </div>
               <span className="font-semibold text-white text-2xl hidden sm:block">lusk.app</span>
@@ -63,7 +64,7 @@ export function Navbar() {
             <div className="hidden md:flex items-center gap-6">
               <Button variant="ghost" size="lg" asChild>
                 <a href="https://github.com/lusky3" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                  <Github className="w-6 h-6" aria-hidden="true" />
+                  <SiGithub className="w-6 h-6" aria-hidden="true" />
                 </a>
               </Button>
               <Button 

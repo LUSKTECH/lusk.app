@@ -1,9 +1,10 @@
 'use client'
 
-import { Github, Linkedin, Mail, Heart } from 'lucide-react'
+import { Mail, Heart, Linkedin } from 'lucide-react'
+import { SiGithub } from '@icons-pack/react-simple-icons'
 
 const socialLinks = [
-  { icon: Github, href: 'https://github.com/lusky3', label: 'GitHub' },
+  { icon: SiGithub, href: 'https://github.com/lusky3', label: 'GitHub' },
   { icon: Linkedin, href: 'https://www.linkedin.com/company/lusktechnologies/', label: 'LinkedIn' },
   { icon: Mail, href: 'mailto:hello@lusk.app', label: 'Email' },
 ]
@@ -24,7 +25,7 @@ export function Footer() {
           {/* Logo & Copyright */}
           <div className="flex flex-col items-center md:items-start gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-linear-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
                 <span className="text-white font-bold text-xl">L</span>
               </div>
               <span className="font-semibold text-white text-xl">Lusk Technologies</span>

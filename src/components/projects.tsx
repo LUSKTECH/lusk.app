@@ -1,7 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Star, ExternalLink, Github } from 'lucide-react'
+import { Star, ExternalLink } from 'lucide-react'
+import { SiGithub } from '@icons-pack/react-simple-icons'
 import { Button } from '@/components/ui/button'
 
 interface Project {
@@ -86,7 +87,7 @@ export function Projects() {
           className="text-center mb-20"
         >
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
               Featured Projects
             </span>
           </h2>
@@ -114,7 +115,7 @@ export function Projects() {
                 <div className="h-full p-8 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-violet-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10">
                   <div className="flex items-start justify-between mb-5">
                     <div className="flex items-center gap-3">
-                      <Github className="w-6 h-6 text-zinc-400" />
+                      <SiGithub className="w-6 h-6 text-zinc-400" />
                       <h3 className="text-xl font-semibold text-white group-hover:text-violet-400 transition-colors">
                         {project.name}
                       </h3>

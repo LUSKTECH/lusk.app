@@ -12,7 +12,7 @@ export default function NotFound() {
       </div>
 
       <div className="text-center">
-        <h1 className="text-8xl md:text-9xl font-bold bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent mb-4">
+        <h1 className="text-8xl md:text-9xl font-bold bg-linear-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent mb-4">
           404
         </h1>
         <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4">

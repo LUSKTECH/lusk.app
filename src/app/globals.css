@@ -62,7 +62,7 @@ body {
 
 /* Selection */
 ::selection {
-  background-color: rgb(139 92 246 / 0.5);
+  background-color: rgb(109 40 217);
   color: white;
 }
 
@@ -104,6 +104,7 @@ html {
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

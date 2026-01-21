@@ -1,5 +1,5 @@
 'use client'
-import { type ReactNode } from 'react'
+import { type ReactNode, useId } from 'react'
 import { motion, type Variants } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import React from 'react'
@@ -70,6 +70,7 @@ const presetVariants: Record<PresetType, { container: Variants; item: Variants }
 }
 
 export function AnimatedGroup({ children, className, variants, preset }: AnimatedGroupProps) {
+  const id = useId()
   const selectedVariants = preset
     ? presetVariants[preset]
     : { container: defaultContainerVariants, item: defaultItemVariants }
@@ -86,7 +87,7 @@ export function AnimatedGroup({ children, className, variants, preset }: Animate
       className={cn(className)}
     >
       {childArray.map((child, index) => (
-        <motion.div key={`animated-item-${index}`} variants={itemVariants}>
+        <motion.div key={`${id}-${index}`} variants={itemVariants}>
           {child}
         </motion.div>
       ))}
