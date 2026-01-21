@@ -188,8 +188,11 @@ describe('ContactModal', () => {
       expect(screen.getByText(/message sent/i)).toBeInTheDocument()
     })
 
-    // Click close button on success screen
-    fireEvent.click(screen.getByRole('button', { name: /close/i }))
+    // Click the "Close" button on success screen (not the X button which has aria-label "Close modal")
+    const closeButtons = screen.getAllByRole('button', { name: /close/i })
+    // The success screen Close button is the one without aria-label
+    const successCloseButton = closeButtons.find(btn => btn.textContent === 'Close')
+    fireEvent.click(successCloseButton!)
     expect(mockOnClose).toHaveBeenCalled()
   })
 })
