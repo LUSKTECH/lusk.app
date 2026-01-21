@@ -3,7 +3,7 @@
 :root {
   --background: 9 9 11;
   --foreground: 250 250 250;
-  --primary: 139 92 246;
+  --primary: 124 58 237;
   --primary-foreground: 255 255 255;
   --secondary: 39 39 42;
   --secondary-foreground: 250 250 250;
@@ -13,7 +13,7 @@
   --muted-foreground: 161 161 170;
   --border: 39 39 42;
   --input: 39 39 42;
-  --ring: 139 92 246;
+  --ring: 124 58 237;
 }
 
 @theme inline {

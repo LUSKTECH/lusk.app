@@ -24,7 +24,7 @@ export function TechStack() {
           className="text-center mb-16"
         >
           <p className="text-base text-zinc-500 uppercase tracking-wider mb-3">Technologies</p>
-          <h3 className="text-3xl md:text-4xl font-semibold text-zinc-300">Built With Modern Tools</h3>
+          <h2 className="text-3xl md:text-4xl font-semibold text-zinc-300">Built With Modern Tools</h2>
         </motion.div>
 
         <div className="flex flex-wrap justify-center gap-6 md:gap-8">

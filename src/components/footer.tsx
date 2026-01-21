@@ -30,7 +30,7 @@ export function Footer() {
               </div>
               <span className="font-semibold text-white text-xl">Lusk Technologies</span>
             </div>
-            <p className="text-lg text-zinc-500">
+            <p className="text-lg text-zinc-400">
               © {new Date().getFullYear()} Lusk Technologies, Inc. All rights reserved.
             </p>
           </div>
@@ -67,7 +67,7 @@ export function Footer() {
 
         {/* Made with love */}
         <div className="mt-12 pt-12 border-t border-zinc-800/50 text-center">
-          <p className="text-lg text-zinc-500 flex items-center justify-center gap-2">
+          <p className="text-lg text-zinc-400 flex items-center justify-center gap-2">
             Made with <Heart className="w-6 h-6 text-red-500 fill-red-500" /> in Toronto
           </p>
         </div>

@@ -121,7 +121,7 @@ export function Hero() {
               <div className="text-4xl md:text-5xl lg:text-6xl font-bold bg-linear-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
                 {stat.value}
               </div>
-              <div className="text-base md:text-lg text-zinc-500 mt-2">{stat.label}</div>
+              <div className="text-base md:text-lg text-zinc-400 mt-2">{stat.label}</div>
             </div>
           ))}
         </motion.div>
