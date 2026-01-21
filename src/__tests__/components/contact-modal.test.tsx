@@ -7,6 +7,7 @@ describe('ContactModal', () => {
 
   beforeEach(() => {
     mockOnClose.mockClear()
+    vi.mocked(global.fetch).mockClear()
   })
 
   it('does not render when isOpen is false', () => {
@@ -46,6 +47,12 @@ describe('ContactModal', () => {
       fireEvent.click(backdrop)
       expect(mockOnClose).toHaveBeenCalled()
     }
+  })
+
+  it('calls onClose when Escape key is pressed', () => {
+    render(<ContactModal isOpen={true} onClose={mockOnClose} />)
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(mockOnClose).toHaveBeenCalled()
   })
 
   it('shows email link', () => {
@@ -100,5 +107,89 @@ describe('ContactModal', () => {
     await waitFor(() => {
       expect(screen.getByText(/something went wrong/i)).toBeInTheDocument()
     })
+  })
+
+  it('shows error message when response is not ok', async () => {
+    vi.mocked(global.fetch).mockResolvedValueOnce({
+      ok: false,
+      status: 500,
+    } as Response)
+
+    render(<ContactModal isOpen={true} onClose={mockOnClose} />)
+    
+    fireEvent.change(screen.getByLabelText(/name/i), { target: { value: 'Test User' } })
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } })
+    fireEvent.change(screen.getByLabelText(/message/i), { target: { value: 'Test message' } })
+    
+    fireEvent.click(screen.getByRole('button', { name: /send message/i }))
+    
+    await waitFor(() => {
+      expect(screen.getByText(/something went wrong/i)).toBeInTheDocument()
+    })
+  })
+
+  it('allows retry after error', async () => {
+    vi.mocked(global.fetch).mockRejectedValueOnce(new Error('Network error'))
+
+    render(<ContactModal isOpen={true} onClose={mockOnClose} />)
+    
+    fireEvent.change(screen.getByLabelText(/name/i), { target: { value: 'Test User' } })
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } })
+    fireEvent.change(screen.getByLabelText(/message/i), { target: { value: 'Test message' } })
+    
+    fireEvent.click(screen.getByRole('button', { name: /send message/i }))
+    
+    await waitFor(() => {
+      expect(screen.getByText(/something went wrong/i)).toBeInTheDocument()
+    })
+
+    // Click try again
+    fireEvent.click(screen.getByRole('button', { name: /try again/i }))
+    
+    // Form should be visible again
+    expect(screen.getByLabelText(/name/i)).toBeInTheDocument()
+  })
+
+  it('handles honeypot field for bot protection', async () => {
+    render(<ContactModal isOpen={true} onClose={mockOnClose} />)
+    
+    // Fill honeypot field (simulating a bot)
+    const honeypotInput = document.querySelector('input[name="honeypot"]') as HTMLInputElement
+    fireEvent.change(honeypotInput, { target: { value: 'bot-value' } })
+    
+    fireEvent.change(screen.getByLabelText(/name/i), { target: { value: 'Bot' } })
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'bot@example.com' } })
+    fireEvent.change(screen.getByLabelText(/message/i), { target: { value: 'Spam' } })
+    
+    fireEvent.click(screen.getByRole('button', { name: /send message/i }))
+    
+    // Should show success without actually calling fetch
+    await waitFor(() => {
+      expect(screen.getByText(/message sent/i)).toBeInTheDocument()
+    })
+    expect(global.fetch).not.toHaveBeenCalled()
+  })
+
+  it('closes modal from success screen', async () => {
+    vi.mocked(global.fetch).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ success: true }),
+    } as Response)
+
+    render(<ContactModal isOpen={true} onClose={mockOnClose} />)
+    
+    fireEvent.change(screen.getByLabelText(/name/i), { target: { value: 'Test User' } })
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } })
+    fireEvent.change(screen.getByLabelText(/message/i), { target: { value: 'Test message' } })
+    
+    fireEvent.click(screen.getByRole('button', { name: /send message/i }))
+    
+    await waitFor(() => {
+      expect(screen.getByText(/message sent/i)).toBeInTheDocument()
+    })
+
+    // Click close button on success screen
+    fireEvent.click(screen.getByRole('button', { name: /close/i }))
+    expect(mockOnClose).toHaveBeenCalled()
   })
 })

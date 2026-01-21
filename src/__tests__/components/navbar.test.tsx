@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, act } from '@testing-library/react'
 import { Navbar } from '@/components/navbar'
 
 // Mock the ContactModal
@@ -53,5 +53,60 @@ describe('Navbar', () => {
     // Mobile menu should show navigation links
     const projectLinks = screen.getAllByText(/projects/i)
     expect(projectLinks.length).toBeGreaterThan(1)
+  })
+
+  it('closes mobile menu when a link is clicked', () => {
+    render(<Navbar />)
+    const menuButton = screen.getByRole('button', { name: /toggle menu/i })
+    
+    // Open menu
+    fireEvent.click(menuButton)
+    
+    // Click a mobile nav link
+    const mobileLinks = screen.getAllByText(/projects/i)
+    fireEvent.click(mobileLinks[mobileLinks.length - 1])
+    
+    // Menu should close - only desktop link should remain
+    const projectLinksAfter = screen.getAllByText(/projects/i)
+    expect(projectLinksAfter.length).toBe(1)
+  })
+
+  it('opens contact modal from mobile menu and closes menu', () => {
+    render(<Navbar />)
+    const menuButton = screen.getByRole('button', { name: /toggle menu/i })
+    
+    // Open menu
+    fireEvent.click(menuButton)
+    
+    // Click mobile Get in Touch button
+    const mobileButtons = screen.getAllByRole('button', { name: /get in touch/i })
+    fireEvent.click(mobileButtons[mobileButtons.length - 1])
+    
+    // Modal should open
+    expect(screen.getByTestId('contact-modal')).toBeInTheDocument()
+  })
+
+  it('applies scrolled styles when scrolled', () => {
+    render(<Navbar />)
+    
+    // Simulate scroll
+    act(() => {
+      Object.defineProperty(window, 'scrollY', { value: 100, writable: true })
+      window.dispatchEvent(new Event('scroll'))
+    })
+    
+    // Header should have scrolled class
+    const header = screen.getByRole('banner')
+    expect(header.className).toContain('backdrop-blur')
+  })
+
+  it('removes scroll listener on unmount', () => {
+    const removeEventListenerSpy = vi.spyOn(window, 'removeEventListener')
+    const { unmount } = render(<Navbar />)
+    
+    unmount()
+    
+    expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function))
+    removeEventListenerSpy.mockRestore()
   })
 })
