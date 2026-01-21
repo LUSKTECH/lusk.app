@@ -20,9 +20,17 @@ describe('Analytics', () => {
     process.env = originalEnv
   })
 
-  it('returns null when GA_MEASUREMENT_ID is not set', () => {
+  it('renders Vercel Analytics even when GA_MEASUREMENT_ID is not set', () => {
     const { container } = render(<Analytics />)
-    expect(container.firstChild).toBeNull()
+    // Component now always renders Vercel Analytics
+    expect(container.firstChild).not.toBeNull()
+  })
+
+  it('does not render Google Analytics scripts when GA_MEASUREMENT_ID is not set', () => {
+    const { container } = render(<Analytics />)
+    // Should not have any script tags for GA
+    const scripts = container.querySelectorAll('script')
+    expect(scripts.length).toBe(0)
   })
 
   it('updateAnalyticsConsent does nothing when gtag is not defined', () => {
