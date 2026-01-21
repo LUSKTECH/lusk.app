@@ -41,11 +41,9 @@ export function Analytics() {
 
 // Helper to update consent (called from cookie-consent component)
 export function updateAnalyticsConsent(granted: boolean) {
-  if (typeof globalThis.window !== 'undefined' && globalThis.window.gtag) {
-    globalThis.window.gtag('consent', 'update', {
-      'analytics_storage': granted ? 'granted' : 'denied',
-    })
-  }
+  globalThis.window?.gtag?.('consent', 'update', {
+    'analytics_storage': granted ? 'granted' : 'denied',
+  })
 }
 
 // Extend Window interface for TypeScript
