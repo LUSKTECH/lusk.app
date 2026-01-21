@@ -4,27 +4,6 @@ import { motion } from 'framer-motion'
 import { ExternalLink, ChevronRight } from 'lucide-react'
 import { SiGithub } from '@icons-pack/react-simple-icons'
 import { Button } from '@/components/ui/button'
-import { AnimatedGroup } from '@/components/animated-group'
-
-const transitionVariants = {
-  item: {
-    hidden: {
-      opacity: 0,
-      filter: 'blur(12px)',
-      y: 12,
-    },
-    visible: {
-      opacity: 1,
-      filter: 'blur(0px)',
-      y: 0,
-      transition: {
-        type: 'spring' as const,
-        bounce: 0.3,
-        duration: 1.5,
-      },
-    },
-  },
-}
 
 const stats = [
   { id: 'repos', value: '50+', label: 'Repositories' },
@@ -54,28 +33,20 @@ export function Hero() {
       />
 
       <div className="mx-auto max-w-7xl px-6 pt-40 pb-24">
-        <AnimatedGroup
-          variants={{
-            container: {
-              visible: {
-                transition: {
-                  staggerChildren: 0.08,
-                  delayChildren: 0.3,
-                },
-              },
-            },
-            ...transitionVariants,
-          }}
-          className="flex flex-col items-center text-center"
-        >
-          {/* Badge */}
-          <output className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-10">
+        <div className="flex flex-col items-center text-center">
+          {/* Badge - animated */}
+          <motion.output 
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-10"
+          >
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true" />
             <span className="text-base text-zinc-300">Open Source Projects</span>
             <ChevronRight className="w-5 h-5 text-zinc-400" aria-hidden="true" />
-          </output>
+          </motion.output>
 
-          {/* Main heading */}
+          {/* Main heading - NO animation delay for LCP */}
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight mb-8">
             <span className="bg-linear-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
               Building the
@@ -86,14 +57,24 @@ export function Hero() {
             </span>
           </h1>
 
-          {/* Subtitle */}
-          <p className="max-w-3xl text-xl md:text-2xl text-zinc-400 mb-12 leading-relaxed">
+          {/* Subtitle - slight animation */}
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="max-w-3xl text-xl md:text-2xl text-zinc-400 mb-12 leading-relaxed"
+          >
             Crafting innovative solutions through open source. Docker containers, 
             developer tools, and infrastructure automation — all built with passion.
-          </p>
+          </motion.p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-5">
+          {/* CTA Buttons - animated */}
+          <motion.div 
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex flex-wrap items-center justify-center gap-5"
+          >
             <Button size="lg" className="group text-lg px-8 py-6 h-auto" asChild>
               <a href="#projects">
                 Explore Projects
@@ -106,14 +87,14 @@ export function Hero() {
                 View GitHub
               </a>
             </Button>
-          </div>
-        </AnimatedGroup>
+          </motion.div>
+        </div>
 
         {/* Stats */}
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.8 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
           className="mt-28 grid grid-cols-2 md:grid-cols-4 gap-12"
         >
           {stats.map((stat) => (
@@ -131,7 +112,7 @@ export function Hero() {
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
+        transition={{ delay: 0.8 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
         role="presentation"
         aria-hidden="true"
