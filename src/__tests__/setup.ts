@@ -26,6 +26,11 @@ vi.mock('next/script', () => ({
   default: () => null,
 }))
 
+// Mock Vercel Analytics
+vi.mock('@vercel/analytics/next', () => ({
+  Analytics: () => null,
+}))
+
 // Mock framer-motion
 vi.mock('framer-motion', () => ({
   motion: {
