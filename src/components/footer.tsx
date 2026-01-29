@@ -1,11 +1,11 @@
 'use client'
 
-import { Mail, Heart, Linkedin } from 'lucide-react'
+import { Mail, Heart, LinkedinIcon } from 'lucide-react'
 import { SiGithub } from '@icons-pack/react-simple-icons'
 
 const socialLinks = [
   { icon: SiGithub, href: 'https://github.com/lusky3', label: 'GitHub' },
-  { icon: Linkedin, href: 'https://www.linkedin.com/company/lusktechnologies/', label: 'LinkedIn' },
+  { icon: LinkedinIcon, href: 'https://www.linkedin.com/company/lusktechnologies/', label: 'LinkedIn' },
   { icon: Mail, href: 'mailto:hello@lusk.app', label: 'Email' },
 ]
 
