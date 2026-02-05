@@ -29,7 +29,7 @@ function ContactForm({ onSuccess, onError }: ContactFormProps) {
     startTimeRef.current = Date.now()
   }, [])
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     
     // Bot protection: honeypot check (client-side)

@@ -1,11 +1,32 @@
 'use client'
 
-import { Mail, Heart, LinkedinIcon } from 'lucide-react'
+import { Mail, Heart } from 'lucide-react'
 import { SiGithub } from '@icons-pack/react-simple-icons'
+
+// Custom LinkedIn icon (brand icons removed from lucide-react and simple-icons)
+function LinkedInIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect width="4" height="12" x="2" y="9" />
+      <circle cx="4" cy="4" r="2" />
+    </svg>
+  )
+}
 
 const socialLinks = [
   { icon: SiGithub, href: 'https://github.com/lusky3', label: 'GitHub' },
-  { icon: LinkedinIcon, href: 'https://www.linkedin.com/company/lusktechnologies/', label: 'LinkedIn' },
+  { icon: LinkedInIcon, href: 'https://www.linkedin.com/company/lusktechnologies/', label: 'LinkedIn' },
   { icon: Mail, href: 'mailto:hello@lusk.app', label: 'Email' },
 ]
 
