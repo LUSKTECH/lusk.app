@@ -1,21 +1,48 @@
-name: Discord Notifications
+name: Discord Notification
 
 on:
-  pull_request:
-    types: [opened, closed, reopened]
   workflow_run:
-    workflows: [CI, Security, Deploy]
+    workflows: ['CI', 'Deploy Production']
     types: [completed]
 
-jobs:
-  notify-pr:
-    if: github.event_name == 'pull_request'
-    uses: LUSKTECH/.github/.github/workflows/discord-pr.yml@main
-    secrets:
-      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+permissions:
+  actions: read
 
-  notify-failure:
-    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure'
-    uses: LUSKTECH/.github/.github/workflows/discord-workflow-failure.yml@main
+jobs:
+  check-secrets:
+    name: Check Secrets
+    runs-on: ubuntu-latest
+    outputs:
+      has-discord: ${{ steps.discord-check.outputs.defined }}
+    steps:
+      - name: Check DISCORD_WEBHOOK_URL
+        id: discord-check
+        shell: bash
+        run: |
+          if [ "${{ secrets.DISCORD_WEBHOOK_URL }}" != '' ]; then
+            echo "defined=true" >> $GITHUB_OUTPUT
+          else
+            echo "defined=false" >> $GITHUB_OUTPUT
+          fi
+
+  notify:
+    needs: [check-secrets]
+    if: needs.check-secrets.outputs.has-discord == 'true'
+    uses: LUSKTECH/.github/.github/workflows/discord-notify.yml@main
+    with:
+      status: ${{ github.event.workflow_run.conclusion }}
+      title: '${{ github.event.workflow_run.name }} — ${{ github.event.workflow_run.conclusion }}'
+      description: |
+        **Repository:** ${{ github.repository }}
+        **Branch:** ${{ github.event.workflow_run.head_branch }}
+        **Triggered by:** ${{ github.event.workflow_run.actor.login }}
+      url: ${{ github.event.workflow_run.html_url }}
     secrets:
-      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+  notify-skip-notice:
+    needs: [check-secrets]
+    if: needs.check-secrets.outputs.has-discord != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::Discord notification skipped — DISCORD_WEBHOOK_URL secret is not configured."

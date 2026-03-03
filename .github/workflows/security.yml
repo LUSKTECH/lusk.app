@@ -1,8 +1,6 @@
-name: Security
+name: Security Scans
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
   schedule:
@@ -11,12 +9,46 @@ on:
 permissions:
   contents: read
   security-events: write
-  actions: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
+  check-secrets:
+    name: Check Secrets
+    runs-on: ubuntu-latest
+    outputs:
+      has-snyk: ${{ steps.snyk-check.outputs.defined }}
+      has-safety: ${{ steps.safety-check.outputs.defined }}
+    steps:
+      - name: Check SNYK_TOKEN
+        id: snyk-check
+        shell: bash
+        run: |
+          if [ "${{ secrets.SNYK_TOKEN }}" != '' ]; then
+            echo "defined=true" >> $GITHUB_OUTPUT
+          else
+            echo "defined=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check SAFETY_API_KEY
+        id: safety-check
+        shell: bash
+        run: |
+          if [ "${{ secrets.SAFETY_API_KEY }}" != '' ]; then
+            echo "defined=true" >> $GITHUB_OUTPUT
+          else
+            echo "defined=false" >> $GITHUB_OUTPUT
+          fi
+
   codeql:
     name: CodeQL Analysis
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
     steps:
       - uses: actions/checkout@v6
 
@@ -31,39 +63,88 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
 
-  snyk:
-    name: Snyk Security Scan
+  trivy:
+    name: Trivy Scan
+    if: ${{ vars.TRIVY_ENABLED == 'true' }}
     runs-on: ubuntu-latest
-    if: github.actor != 'dependabot[bot]'
     steps:
-      - name: Check for Snyk token
-        id: check
-        run: |
-          if [ -z "${{ secrets.SNYK_TOKEN }}" ]; then
-            echo "skip=true" >> $GITHUB_OUTPUT
-          fi
-
       - uses: actions/checkout@v6
-        if: steps.check.outputs.skip != 'true'
+
+      - name: Run Trivy filesystem scan
+        uses: aquasecurity/trivy-action@0.34.1
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: CRITICAL,HIGH
+          exit-code: '1'
+          format: table
+
+  trivy-skip-notice:
+    name: Trivy Skip Notice
+    if: ${{ vars.TRIVY_ENABLED != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::Trivy scan skipped — TRIVY_ENABLED variable is not set to 'true'."
+
+  snyk:
+    name: Snyk Scan
+    needs: [check-secrets]
+    if: needs.check-secrets.outputs.has-snyk == 'true'
+    runs-on: ubuntu-latest
+    env:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    steps:
+      - uses: actions/checkout@v6
 
       - uses: actions/setup-node@v6
-        if: steps.check.outputs.skip != 'true'
         with:
           node-version: 22
-          cache: 'npm'
+          cache: npm
 
-      - name: Install dependencies
-        if: steps.check.outputs.skip != 'true'
-        run: npm ci
+      - run: npm ci
 
-      - name: Run Snyk
-        if: steps.check.outputs.skip != 'true'
-        uses: snyk/actions/node@master
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Run Snyk test
+        uses: snyk/actions/node@v1.0.0
         with:
           args: --severity-threshold=high
+
+  snyk-skip-notice:
+    name: Snyk Skip Notice
+    needs: [check-secrets]
+    if: needs.check-secrets.outputs.has-snyk != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::Snyk scan skipped — SNYK_TOKEN secret is not configured."
+
+  safety:
+    name: Safety CLI Scan
+    needs: [check-secrets]
+    if: needs.check-secrets.outputs.has-safety == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install safety
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run Safety check
+        env:
+          SAFETY_API_KEY: ${{ secrets.SAFETY_API_KEY }}
+        run: safety check --key "$SAFETY_API_KEY" --output screen
+
+  safety-skip-notice:
+    name: Safety Skip Notice
+    needs: [check-secrets]
+    if: needs.check-secrets.outputs.has-safety != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::notice::Safety CLI scan skipped — SAFETY_API_KEY secret is not configured."
 
   npm-audit:
     name: NPM Audit
@@ -74,10 +155,9 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 22
-          cache: 'npm'
+          cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
       - name: Run npm audit
         run: npm audit --audit-level=high

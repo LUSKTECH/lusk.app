@@ -1,0 +1,40 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "typescript", "unicorn", "oxc", "react", "nextjs", "jsx-a11y"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2024": true
+  },
+  "settings": {
+    "jsx-a11y": {
+      "components": {
+        "Link": "a",
+        "Button": "button"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "files": ["src/__tests__/**"],
+      "rules": {
+        "eslint/no-constant-binary-expression": "off",
+        "nextjs/no-html-link-for-pages": "off"
+      }
+    }
+  ],
+  "ignorePatterns": [
+    ".next/**",
+    "out/**",
+    "build/**",
+    "node_modules/**",
+    "coverage/**"
+  ]
+}

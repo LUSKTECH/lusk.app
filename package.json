@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "oxlint",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage"
@@ -36,8 +36,7 @@
     "@vitejs/plugin-react": "^5.1.2",
     "@vitest/coverage-v8": "^4.0.17",
     "babel-plugin-react-compiler": "1.0.0",
-    "eslint": "^9",
-    "eslint-config-next": "16.1.6",
+    "oxlint": "^1.51.0",
     "jsdom": "^27.4.0",
     "tailwindcss": "^4",
     "typescript": "^5",
