@@ -4,9 +4,6 @@ on:
   push:
     branches: [main]
 
-permissions:
-  contents: read
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -23,8 +20,10 @@ jobs:
       - name: Check VERCEL_TOKEN
         id: vercel-check
         shell: bash
+        env:
+          SECRET_VALUE: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          if [ "${{ secrets.VERCEL_TOKEN }}" != '' ]; then
+          if [ "$SECRET_VALUE" != '' ]; then
             echo "defined=true" >> $GITHUB_OUTPUT
           else
             echo "defined=false" >> $GITHUB_OUTPUT
@@ -33,8 +32,10 @@ jobs:
       - name: Check NETLIFY_AUTH_TOKEN
         id: netlify-check
         shell: bash
+        env:
+          SECRET_VALUE: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         run: |
-          if [ "${{ secrets.NETLIFY_AUTH_TOKEN }}" != '' ]; then
+          if [ "$SECRET_VALUE" != '' ]; then
             echo "defined=true" >> $GITHUB_OUTPUT
           else
             echo "defined=false" >> $GITHUB_OUTPUT
@@ -43,8 +44,10 @@ jobs:
       - name: Check SENTRY_AUTH_TOKEN
         id: sentry-check
         shell: bash
+        env:
+          SECRET_VALUE: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: |
-          if [ "${{ secrets.SENTRY_AUTH_TOKEN }}" != '' ]; then
+          if [ "$SECRET_VALUE" != '' ]; then
             echo "defined=true" >> $GITHUB_OUTPUT
           else
             echo "defined=false" >> $GITHUB_OUTPUT
@@ -55,6 +58,8 @@ jobs:
     needs: [check-secrets]
     if: needs.check-secrets.outputs.has-vercel == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v6
 
@@ -63,7 +68,7 @@ jobs:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      - run: npm ci --ignore-scripts
 
       - run: npx vitest --run
 
@@ -89,6 +94,8 @@ jobs:
     needs: [check-secrets]
     if: needs.check-secrets.outputs.has-netlify == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v6
 
@@ -97,7 +104,7 @@ jobs:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      - run: npm ci --ignore-scripts
 
       - run: npm run build
 
@@ -129,6 +136,8 @@ jobs:
     needs: [check-secrets, vercel-production]
     if: always() && needs.check-secrets.outputs.has-sentry == 'true' && (needs.vercel-production.result == 'success' || needs.vercel-production.result == 'skipped')
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v6
 

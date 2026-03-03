@@ -6,10 +6,6 @@ on:
   schedule:
     - cron: '0 6 * * 1'
 
-permissions:
-  contents: read
-  security-events: write
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -25,8 +21,10 @@ jobs:
       - name: Check SNYK_TOKEN
         id: snyk-check
         shell: bash
+        env:
+          SECRET_VALUE: ${{ secrets.SNYK_TOKEN }}
         run: |
-          if [ "${{ secrets.SNYK_TOKEN }}" != '' ]; then
+          if [ "$SECRET_VALUE" != '' ]; then
             echo "defined=true" >> $GITHUB_OUTPUT
           else
             echo "defined=false" >> $GITHUB_OUTPUT
@@ -35,8 +33,10 @@ jobs:
       - name: Check SAFETY_API_KEY
         id: safety-check
         shell: bash
+        env:
+          SECRET_VALUE: ${{ secrets.SAFETY_API_KEY }}
         run: |
-          if [ "${{ secrets.SAFETY_API_KEY }}" != '' ]; then
+          if [ "$SECRET_VALUE" != '' ]; then
             echo "defined=true" >> $GITHUB_OUTPUT
           else
             echo "defined=false" >> $GITHUB_OUTPUT
@@ -67,6 +67,8 @@ jobs:
     name: Trivy Scan
     if: ${{ vars.TRIVY_ENABLED == 'true' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v6
 
@@ -91,6 +93,8 @@ jobs:
     needs: [check-secrets]
     if: needs.check-secrets.outputs.has-snyk == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     env:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     steps:
@@ -101,7 +105,7 @@ jobs:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      - run: npm ci --ignore-scripts
 
       - name: Run Snyk test
         uses: snyk/actions/node@v1.0.0
@@ -121,6 +125,8 @@ jobs:
     needs: [check-secrets]
     if: needs.check-secrets.outputs.has-safety == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v6
 
@@ -149,6 +155,8 @@ jobs:
   npm-audit:
     name: NPM Audit
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v6
 
@@ -157,7 +165,7 @@ jobs:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      - run: npm ci --ignore-scripts
 
       - name: Run npm audit
         run: npm audit --audit-level=high

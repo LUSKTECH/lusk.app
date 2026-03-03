@@ -6,10 +6,6 @@ on:
   pull_request:
     branches: [main]
 
-permissions:
-  contents: read
-  pull-requests: read
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -24,8 +20,10 @@ jobs:
       - name: Check SONAR_TOKEN
         id: sonar-check
         shell: bash
+        env:
+          SECRET_VALUE: ${{ secrets.SONAR_TOKEN }}
         run: |
-          if [ "${{ secrets.SONAR_TOKEN }}" != '' ]; then
+          if [ "$SECRET_VALUE" != '' ]; then
             echo "defined=true" >> $GITHUB_OUTPUT
           else
             echo "defined=false" >> $GITHUB_OUTPUT
@@ -36,6 +34,9 @@ jobs:
     needs: [check-secrets]
     if: needs.check-secrets.outputs.has-sonar == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - uses: actions/checkout@v6
         with:
@@ -46,7 +47,7 @@ jobs:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      - run: npm ci --ignore-scripts
 
       - run: npx vitest --run --coverage
 

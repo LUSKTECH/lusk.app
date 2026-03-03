@@ -4,9 +4,6 @@ on:
   pull_request:
     branches: [main]
 
-permissions:
-  contents: read
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -21,8 +18,10 @@ jobs:
       - name: Check LHCI_GITHUB_APP_TOKEN
         id: lhci-check
         shell: bash
+        env:
+          SECRET_VALUE: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         run: |
-          if [ "${{ secrets.LHCI_GITHUB_APP_TOKEN }}" != '' ]; then
+          if [ "$SECRET_VALUE" != '' ]; then
             echo "defined=true" >> $GITHUB_OUTPUT
           else
             echo "defined=false" >> $GITHUB_OUTPUT
@@ -33,6 +32,8 @@ jobs:
     needs: [check-secrets]
     if: needs.check-secrets.outputs.has-lhci == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v6
 
@@ -41,7 +42,7 @@ jobs:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      - run: npm ci --ignore-scripts
 
       - run: npm run build
 

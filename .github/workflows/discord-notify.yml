@@ -5,9 +5,6 @@ on:
     workflows: ['CI', 'Deploy Production']
     types: [completed]
 
-permissions:
-  actions: read
-
 jobs:
   check-secrets:
     name: Check Secrets
@@ -18,8 +15,10 @@ jobs:
       - name: Check DISCORD_WEBHOOK_URL
         id: discord-check
         shell: bash
+        env:
+          SECRET_VALUE: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          if [ "${{ secrets.DISCORD_WEBHOOK_URL }}" != '' ]; then
+          if [ "$SECRET_VALUE" != '' ]; then
             echo "defined=true" >> $GITHUB_OUTPUT
           else
             echo "defined=false" >> $GITHUB_OUTPUT
@@ -28,6 +27,8 @@ jobs:
   notify:
     needs: [check-secrets]
     if: needs.check-secrets.outputs.has-discord == 'true'
+    permissions:
+      actions: read
     uses: LUSKTECH/.github/.github/workflows/discord-notify.yml@main
     with:
       status: ${{ github.event.workflow_run.conclusion }}
