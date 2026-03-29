@@ -26,7 +26,7 @@
     "tailwind-merge": "^3.4.1"
   },
   "overrides": {
-    "serialize-javascript": "^7.0.4"
+    "serialize-javascript": "^7.0.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
