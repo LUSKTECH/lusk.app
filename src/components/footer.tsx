@@ -57,7 +57,7 @@ export function Footer() {
           </div>
 
           {/* Links */}
-          <nav className="flex flex-wrap justify-center gap-10">
+          <nav aria-label="Footer" className="flex flex-wrap justify-center gap-10">
             {footerLinks.map((link) => (
               <a
                 key={link.label}

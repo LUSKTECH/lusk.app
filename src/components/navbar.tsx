@@ -37,7 +37,7 @@ export function Navbar() {
           isScrolled ? 'bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50' : ''
         )}
       >
-        <nav className="mx-auto max-w-7xl px-8 py-6">
+        <nav aria-label="Main" className="mx-auto max-w-7xl px-8 py-6">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
