@@ -69,12 +69,7 @@ export function Hero() {
           </motion.p>
 
           {/* CTA Buttons - animated */}
-          <motion.div 
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-wrap items-center justify-center gap-5"
-          >
+          <div className="flex flex-wrap items-center justify-center gap-5">
             <Button size="lg" className="group text-lg px-8 py-6 h-auto text-white" asChild>
               <a href="#projects">
                 Explore Projects
@@ -87,7 +82,7 @@ export function Hero() {
                 View GitHub
               </a>
             </Button>
-          </motion.div>
+          </div>
         </div>
 
         {/* Stats */}
