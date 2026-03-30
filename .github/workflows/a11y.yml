@@ -26,6 +26,9 @@ jobs:
 
       - run: npm run build
 
+      - name: Sync Chrome and ChromeDriver versions
+        run: npx browser-driver-manager install chrome
+
       - name: Start server and run axe accessibility tests
         run: |
           npx next start -p 3000 &

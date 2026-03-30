@@ -69,25 +69,20 @@ export function Hero() {
           </motion.p>
 
           {/* CTA Buttons - animated */}
-          <motion.div 
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-wrap items-center justify-center gap-5"
-          >
-            <Button size="lg" className="group text-lg px-8 py-6 h-auto" asChild>
+          <div className="flex flex-wrap items-center justify-center gap-5">
+            <Button size="lg" className="group text-lg px-8 py-6 h-auto text-white" asChild>
               <a href="#projects">
                 Explore Projects
                 <ExternalLink className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
               </a>
             </Button>
-            <Button size="lg" variant="outline" className="group text-lg px-8 py-6 h-auto" asChild>
+            <Button size="lg" variant="outline" className="group text-lg px-8 py-6 h-auto text-white" asChild>
               <a href="https://github.com/lusky3" target="_blank" rel="noopener noreferrer">
                 <SiGithub className="mr-2 w-6 h-6" aria-hidden="true" />
                 View GitHub
               </a>
             </Button>
-          </motion.div>
+          </div>
         </div>
 
         {/* Stats */}
