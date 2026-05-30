@@ -93,6 +93,7 @@ function ContactForm({ onSuccess, onError }: ContactFormProps) {
           type="text"
           id="name"
           name="name"
+          aria-label="Name"
           value={formData.name}
           onChange={handleChange}
           required
@@ -109,6 +110,7 @@ function ContactForm({ onSuccess, onError }: ContactFormProps) {
           type="email"
           id="email"
           name="email"
+          aria-label="Email"
           value={formData.email}
           onChange={handleChange}
           required
@@ -124,6 +126,7 @@ function ContactForm({ onSuccess, onError }: ContactFormProps) {
         <textarea
           id="message"
           name="message"
+          aria-label="Message"
           value={formData.message}
           onChange={handleChange}
           required
