@@ -110,6 +110,7 @@ export function Projects() {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`${project.name} project`}
                 className="group block h-full"
               >
                 <div className="h-full p-8 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-violet-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10">
