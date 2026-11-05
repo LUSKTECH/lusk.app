@@ -24,6 +24,8 @@ function LinkedInIcon({ className }: { className?: string }) {
   )
 }
 
+const currentYear = new Date().getFullYear()
+
 const socialLinks = [
   { icon: SiGithub, href: 'https://github.com/lusky3', label: 'GitHub' },
   { icon: LinkedInIcon, href: 'https://www.linkedin.com/company/lusktechnologies/', label: 'LinkedIn' },
@@ -52,7 +54,7 @@ export function Footer() {
               <span className="font-semibold text-white text-xl">Lusk Technologies</span>
             </div>
             <p className="text-lg text-zinc-400">
-              © {new Date().getFullYear()} Lusk Technologies, Inc. All rights reserved.
+              © {currentYear} Lusk Technologies, Inc. All rights reserved.
             </p>
           </div>
 
